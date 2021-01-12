@@ -10,7 +10,6 @@ If you already develop applications with JavaFX, you probably don't need to down
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 <!-- Please make sure to update tests as appropriate. -->
-[//]: # (Yet another comment) 
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
