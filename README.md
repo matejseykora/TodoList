@@ -1,6 +1,6 @@
 # TodoList
 
-TodoList is a JavaFX app for saving organising things to be done in a simple way.
+TodoList is a JavaFX app for saving and organising things to be done in a simple way.
 
 ## Installation
 
