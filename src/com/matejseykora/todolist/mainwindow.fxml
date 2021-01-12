@@ -26,13 +26,13 @@
 <!--                        </ImageView>-->
 <!--                    </graphic>-->
                     </Button>
-
+                    // first filter option
                     <ToggleButton fx:id="filterToggleButton" text="Today's Items" onAction="#handleFilterButton">
                         <tooltip>
                              <Tooltip text="Button Down: Show Today's items only. Button Up: Show all items"/>
                         </tooltip>
                     </ToggleButton>
-
+                    // second filter option
                     <ToggleButton fx:id="filterToggleButtonSecond" text="Tomorrow Items" onAction="#handleFilterButton">
                         <tooltip>
                             <Tooltip text="Button Down: Show Tomorrow items only. Button Up: Show all items"/>
