@@ -92,6 +92,14 @@ public class TodoData {
     public void deleteTodoItem(TodoItem item) {
         todoItems.remove(item);
     }
+
+    public void editTodoItem(TodoItem item, String shortDescription, String details, LocalDate deadline) {
+        if (item != null) {
+            item.setShortDescription(shortDescription);
+            item.setDetails(details);
+            item.setDeadline(deadline);
+        }
+    }
 }
 
 
