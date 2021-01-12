@@ -1,10 +1,10 @@
-# Foobar
+# TodoList
 
-Foobar is a Python library for dealing with word pluralization.
+TodoList is a JavaFX app for saving organising things to be done in a simple way.
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+If you already develop applications with JavaFX, you probably don't need to download anything at all, otherwise you have to install JavaFX when working with Java 11 or higher (it is not the part of JDK since Java 11).
 
 ```bash
 pip install foobar
