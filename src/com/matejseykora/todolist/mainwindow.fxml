@@ -1,6 +1,4 @@
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <BorderPane fx:id="mainBorderPane" fx:controller="com.matejseykora.todolist.Controller"
@@ -28,9 +26,16 @@
 <!--                        </ImageView>-->
 <!--                    </graphic>-->
                     </Button>
+
                     <ToggleButton fx:id="filterToggleButton" text="Today's Items" onAction="#handleFilterButton">
                         <tooltip>
                              <Tooltip text="Button Down: Show Today's items only. Button Up: Show all items"/>
+                        </tooltip>
+                    </ToggleButton>
+
+                    <ToggleButton fx:id="filterToggleButtonSecond" text="Tomorrow Items" onAction="#handleFilterButton">
+                        <tooltip>
+                            <Tooltip text="Button Down: Show Tomorrow items only. Button Up: Show all items"/>
                         </tooltip>
                     </ToggleButton>
                 </HBox>
