@@ -22,13 +22,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 public class Controller {
-
-    private List<TodoItem> todoItems;
 
     @FXML
     private ListView<TodoItem> todoListView;
@@ -48,14 +45,20 @@ public class Controller {
     @FXML
     private ToggleButton filterToggleButton;
 
+    @FXML
+    private ToggleButton filterToggleButtonSecond;
+
     private FilteredList<TodoItem> filteredList;
 
     private Predicate<TodoItem> wantAllItems;
 
     private Predicate<TodoItem> wantTodaysItems;
 
+    private Predicate<TodoItem> wantTomorrowItems;
+
     public void initialize() {
 
+        // right click option to delete single item
         listContextMenu = new ContextMenu();
         MenuItem deleteMenuItem = new MenuItem("Delete");
         deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -66,6 +69,7 @@ public class Controller {
             }
         });
 
+        // select previous item after deleting one
         listContextMenu.getItems().addAll(deleteMenuItem);
         todoListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TodoItem>() {
             @Override
@@ -79,7 +83,7 @@ public class Controller {
             }
         });
 
-        // create predicates thus they are reusable
+        // create predicates to filter items such as "today deadline items"
         wantAllItems = new Predicate<TodoItem>() {
             @Override
             public boolean test(TodoItem item) {
@@ -94,23 +98,24 @@ public class Controller {
             }
         };
 
+        wantTomorrowItems = new Predicate<TodoItem>() {
+            @Override
+            public boolean test(TodoItem item) {
+                return (item.getDeadline().equals(LocalDate.now().plusDays(1)));
+            }
+        };
+
         filteredList = new FilteredList<>(TodoData.getInstance().getTodoItems(), wantAllItems);
 
         // sort items from oldest to newest
         SortedList<TodoItem> sortedList = new SortedList<>(filteredList,
-                new Comparator<TodoItem>() {
-                    @Override
-                    public int compare(TodoItem o1, TodoItem o2) {
-                        return o1.getDeadline().compareTo(o2.getDeadline());
-                    }
-                });
+                Comparator.comparing(TodoItem::getDeadline));
 
-//        todoListView.setItems(TodoData.getInstance().getTodoItems());
         todoListView.setItems(sortedList);
         todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         todoListView.getSelectionModel().selectFirst();
 
-        todoListView.setCellFactory(new Callback<ListView<TodoItem>, ListCell<TodoItem>>() {
+        todoListView.setCellFactory(new Callback<>() {
             @Override
             public ListCell<TodoItem> call(ListView<TodoItem> todoItemListView) {
                 ListCell<TodoItem> cell = new ListCell<>() {
@@ -212,8 +217,18 @@ public class Controller {
             if (filteredList.isEmpty()) {
                 itemDetailsTextArea.clear();
                 deadlineLabel.setText("");
-            } else if (filteredList.contains(selectedItem)){
-                 todoListView.getSelectionModel().select(selectedItem);
+            } else if (filteredList.contains(selectedItem)) {
+                todoListView.getSelectionModel().select(selectedItem);
+            } else {
+                todoListView.getSelectionModel().selectFirst();
+            }
+        } else if (filterToggleButtonSecond.isSelected()) {
+            filteredList.setPredicate(wantTomorrowItems);
+            if (filteredList.isEmpty()) {
+                itemDetailsTextArea.clear();
+                deadlineLabel.setText("");
+            } else if (filteredList.contains(selectedItem)) {
+                todoListView.getSelectionModel().select(selectedItem);
             } else {
                 todoListView.getSelectionModel().selectFirst();
             }
@@ -228,10 +243,3 @@ public class Controller {
         Platform.exit();
     }
 }
-
-
-
-
-
-
-
