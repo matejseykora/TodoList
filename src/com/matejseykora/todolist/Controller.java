@@ -69,6 +69,9 @@ public class Controller {
             }
         });
 
+        // right click option to change single item
+
+
         // select previous item after deleting one
         listContextMenu.getItems().addAll(deleteMenuItem);
         todoListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TodoItem>() {
@@ -90,14 +93,12 @@ public class Controller {
                 return true;
             }
         };
-
         wantTodaysItems = new Predicate<TodoItem>() {
             @Override
             public boolean test(TodoItem item) {
                 return (item.getDeadline().equals(LocalDate.now()));
             }
         };
-
         wantTomorrowItems = new Predicate<TodoItem>() {
             @Override
             public boolean test(TodoItem item) {
@@ -105,21 +106,19 @@ public class Controller {
             }
         };
 
+        // create list to sort items from oldest to newest
         filteredList = new FilteredList<>(TodoData.getInstance().getTodoItems(), wantAllItems);
-
-        // sort items from oldest to newest
         SortedList<TodoItem> sortedList = new SortedList<>(filteredList,
                 Comparator.comparing(TodoItem::getDeadline));
-
         todoListView.setItems(sortedList);
         todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         todoListView.getSelectionModel().selectFirst();
 
+        // view items in from previously sorted list
         todoListView.setCellFactory(new Callback<>() {
             @Override
             public ListCell<TodoItem> call(ListView<TodoItem> todoItemListView) {
                 ListCell<TodoItem> cell = new ListCell<>() {
-
                     @Override
                     protected void updateItem(TodoItem item, boolean empty) {
                         super.updateItem(item, empty);
