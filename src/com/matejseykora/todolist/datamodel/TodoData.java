@@ -37,17 +37,11 @@ public class TodoData {
     }
 
     public void loadTodoItems() throws IOException {
-
-        // FXCollections package contains all of the Java.util.Collections classes and static methods,
-        // but the code is optimised to reduce the number of events and modifications when the collections changed
-        // performance plays important role here
         todoItems = FXCollections.observableArrayList();
         Path path = Paths.get(fileName);
-        BufferedReader br = Files.newBufferedReader(path);
 
-        String input;
-
-        try {
+        try (BufferedReader br = Files.newBufferedReader(path)) {
+            String input;
             while ((input = br.readLine()) != null) {
                 String[] itemPieces = input.split("\t");
 
@@ -60,31 +54,19 @@ public class TodoData {
                 todoItems.add(todoItem);
             }
 
-        } finally {
-            if (br != null) {
-                br.close();
-            }
         }
     }
 
     public void storeTodoItems() throws IOException {
 
         Path path = Paths.get(fileName);
-        BufferedWriter bw = Files.newBufferedWriter(path);
-        try {
-            Iterator<TodoItem> iter = todoItems.iterator();
-            while (iter.hasNext()) {
-                TodoItem item = iter.next();
+        try (BufferedWriter bw = Files.newBufferedWriter(path)) {
+            for (TodoItem item : todoItems) {
                 bw.write(String.format("%s\t%s\t%s",
                         item.getShortDescription(),
                         item.getDetails(),
                         item.getDeadline().format(formatter)));
                 bw.newLine();
-            }
-
-        } finally {
-            if (bw != null) {
-                bw.close();
             }
         }
     }
@@ -93,18 +75,3 @@ public class TodoData {
         todoItems.remove(item);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
